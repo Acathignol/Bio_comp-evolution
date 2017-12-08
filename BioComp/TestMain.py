@@ -3,7 +3,7 @@ import os
 import time
 
 
-print "Hello world!"
+print ("Hello world!")
 
 SaveTranscript = "EnregistrementTranscrits.txt"
 
@@ -43,13 +43,15 @@ def load_genome(directoryAddress):
 load_res(SaveTranscript)
 load_genome("tousgenesidentiques/")
 
-print "#############################################"
-print Transcript
-print Genome_pos
-print Genome_sign
-print Range
-print "#############################################"
+print ("#############################################")
+print (Transcript)
+print (Genome_pos)
+print (Genome_sign)
+print (Range)
+print ("#############################################")
 
+def changeGenomeDir():
+	dostuff = 0
 	
 
 #~ def Metropolis (params)
