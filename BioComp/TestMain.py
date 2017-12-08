@@ -59,12 +59,12 @@ def pic_interg_pos(nb_of_pos){
   # creating intergenic positions list
   interg_pos = ()
   for pos in range(Range[0],Range[1]+1) : 
-    is_interg = TRUE
+    is_interg = "TRUE"
     for g in Genome : 
       if pos in range(g[0],g[1]+1) :
-        is_interg = FALSE
+        is_interg = "FALSE"
         break
-    if is_interg : 
+    if is_interg=="TRUE" : 
       interg_pos.append(pos)
 	
   # picking one position or two from it
