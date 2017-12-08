@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import time
-
+import random
 
 print ("Hello world!")
 
@@ -52,7 +52,26 @@ print ("#############################################")
 
 def changeGenomeDir():
 	dostuff = 0
+
+
+def pic_interg_pos(nb_of_pos){
+  pos_chosen = ()
+  # creating intergenic positions list
+  interg_pos = ()
+  for pos in range(Range[0],Range[1]+1) : 
+    is_interg = TRUE
+    for g in Genome : 
+      if pos in range(g[0],g[1]+1) :
+        is_interg = FALSE
+        break
+    if is_interg : 
+      interg_pos.append(pos)
 	
+  # picking one position or two from it
+  for i in range(nb_of_pos) :
+    pos_chosen.append(random.choice(interg_pos))
+  return (pos_chosen)
+}
 
 #~ def Metropolis (params)
   
