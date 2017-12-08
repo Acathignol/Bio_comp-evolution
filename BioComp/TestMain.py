@@ -55,9 +55,9 @@ def changeGenomeDir():
 
 
 def pic_interg_pos(nb_of_pos){
-  pos_chosen = ()
+  pos_chosen = []
   # creating intergenic positions list
-  interg_pos = ()
+  interg_pos = []
   for pos in range(Range[0],Range[1]+1) : 
     is_interg = "TRUE"
     for g in Genome : 
