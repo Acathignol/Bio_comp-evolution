@@ -80,5 +80,13 @@ def pic_interg_pos(nb_of_pos){
 
 
 
-#~ def zyup(pos_1,pos_2)
-
+def zyup() : 
+  (pos_1,pos_2) = pic_interg_pos(2)
+  for i,a in enumerate(Genome_pos) :
+    if (Genome_pos[i][0] >= pos_1 and Genome_pos[i][0] <= pos_2 and Genome_pos[i][1] >= pos_1 and Genome_pos[i][1] <= pos_2 ) :
+      if (Genome_sign[i] == "+") :
+        Genome_pos[i] = (pos_2 - (min(Genome_pos[i]) - pos_1), pos_1 + pos_2 - max(Genome_pos[i]))
+      	Genome_sign[i] = "-"
+      else : 
+        Genome_pos[i] = ( pos_1 + pos_2 - max(Genome_pos[i]),pos_2 - (min(Genome_pos[i]) - pos_1))
+	Genome_sign[i] = "+"
