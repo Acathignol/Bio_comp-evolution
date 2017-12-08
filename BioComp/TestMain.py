@@ -5,32 +5,52 @@ import time
 
 print "Hello world!"
 
+SaveTranscript = "EnregistrementTranscrits.txt"
+
 nbgenes = 10
 
 Transcript = []
-Genome = []
+Genome_pos = []
+Genome_sign = []
+Range = (0,0)
 for i in range(nbgenes):
   Transcript.append(0)
-  Genome.append((0,0))
+  Genome_pos.append((0,0))
+  Genome_sign.append("+")
   
-print Genome
-
-def load_res():
+def load_res(SaveTranscript):
   global Transcript
-  f = open("EnregistrementTranscrits.txt","r")
+  f = open(SaveTranscript,"r")
   lignes = f.readlines()
   f.close()
   for i in range(len(lignes)):
      Transcript[i] = int(lignes[i].split(" ")[2].split("\n")[0])
-  print Transcript
-
-def load_genome(directoryAddress):
-  global Genome
-  f = open("\"+directoryAddress+
   
 
-#~ def load_resultats_sym()
+def load_genome(directoryAddress):
+  global Genome_pos,Genome_sign,Range
+  f = open(directoryAddress+'tousgenesidentiques.gff','r')
+  lignes = f.readlines()
+  f.close()
+  for i in range(5,len(lignes)):
+    l = lignes[i].split("\t")
+    Genome_pos[i-5] = (int(l[3]),int(l[4]))
+    Genome_sign[i-5] = l[6]
+  ligneRange = lignes[4].split("\t")
+  Range = (ligneRange[3],ligneRange[4])
 
+
+load_res(SaveTranscript)
+load_genome("tousgenesidentiques/")
+
+print "#############################################"
+print Transcript
+print Genome_pos
+print Genome_sign
+print Range
+print "#############################################"
+
+	
 
 #~ def Metropolis (params)
   
@@ -40,3 +60,4 @@ def load_genome(directoryAddress):
 
 
 #~ def zyup(pos_1,pos_2)
+
