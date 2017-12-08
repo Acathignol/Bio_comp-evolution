@@ -70,7 +70,7 @@ def pic_interg_pos(nb_of_pos){
   # picking one position or two from it
   for i in range(nb_of_pos) :
     pos_chosen.append(random.choice(interg_pos))
-  return (pos_chosen)
+  return pos_chosen
 }
 
 #~ def Metropolis (params)
