@@ -16,24 +16,32 @@ Genome_sign = []
 Genome_names = []
 Prot_pos = []
 Range = (0,0)
+
 for i in range(nbgenes):
   Transcript.append(0)
   Genome_pos.append((0,0))
   Genome_sign.append("+")
   Genome_names.append("test")
   Prot_pos.append(0)
+
+Transcript_new = Transcript
+Genome_pos_new = Genome_pos
+Genome_sign_new = Genome_sign
+Genome_names_new = Genome_names
+Prot_pos_new = Prot_pos
+Range_new = Range
   
-def load_res(SaveTranscript):
-  global Transcript
+def load_res():
+  global Transcript_new,SaveTranscript
   f = open(SaveTranscript,"r")
   lignes = f.readlines()
   f.close()
   for i in range(len(lignes)):
-     Transcript[i] = int(lignes[i].split(" ")[2].split("\n")[0])
-  
-
+     Transcript_new[i] = int(lignes[i].split(" ")[2].split("\n")[0])
+ 
 def load_genome(directoryAddress):
   global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names
+  global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   f = open(directoryAddress+'tousgenesidentiques.gff','r')
   lignes = f.readlines()
   f.close()
@@ -49,6 +57,12 @@ def load_genome(directoryAddress):
   f.close()
   for i in range(1,len(lignes)):
 	  Prot_pos[i-1] = int(lignes[i].split("\t")[1])
+  Transcript_new = Transcript
+  Genome_pos_new = Genome_pos
+  Genome_sign_new = Genome_sign
+  Genome_names_new = Genome_names
+  Prot_pos_new = Prot_pos
+  Range_new = Range
 	
 	  
 def changeGenomeDir(Dir_curr):
@@ -63,66 +77,59 @@ def reorder():
   dostuff=0
 
 def writeProt_dat(directoryAddress):
-  global Prot_pos
+  global Prot_pos_new
   newtab = []
   newtab.append("prot_name\tprot_pos\n")
-  for i in range(len(Genome_pos)):
-  	newtab.append("hns"+"\t"+str(Prot_pos[i])+"\n")
+  for i in range(len(Genome_pos_new)):
+  	newtab.append("hns"+"\t"+str(Prot_pos_new[i])+"\n")
   f = open(directoryAddress+'prot.dat','w')
   f.writelines(newtab)
   f.close()
 
 def write_gff(directoryAddress):
-  global Range,Genome_pos,Genome_sign,Genome_names
+  global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   f = open(directoryAddress+"tousgenesidentiques.gff","r")
   lignes = f.readlines()
   f.close()
   newtab = lignes[0:3]
-  newtab.append(lignes[3].split(" ")[0]+" "+lignes[3].split(" ")[1]+" "+Range[0]+" "+Range[1]+"\n")
-  newtab.append(lignes[4].split("\t")[0]+"\t"+lignes[4].split("\t")[1]+"\t"+lignes[4].split("\t")[2]+"\t"+Range[0]+"\t"+Range[1]+"\t.\t+\t.\tID=id0;Name=tousgenesidentiques\n")
-  for i in range(len(Genome_pos)):
+  newtab.append(lignes[3].split(" ")[0]+" "+lignes[3].split(" ")[1]+" "+Range_new[0]+" "+Range_new[1]+"\n")
+  newtab.append(lignes[4].split("\t")[0]+"\t"+lignes[4].split("\t")[1]+"\t"+lignes[4].split("\t")[2]+"\t"+Range_new[0]+"\t"+Range_new[1]+"\t.\t+\t.\tID=id0;Name=tousgenesidentiques\n")
+  for i in range(len(Genome_pos_new)):
     s = "tousgenesidentiques\tRefSeq\tgene\t"
-  newtab.append(s+str(Genome_pos[i][0])+"\t"+str(Genome_pos[i][1])+"\t.\t"+Genome_sign[i]+"\t.\tID=g1;Name="+Genome_names[i])
+  newtab.append(s+str(Genome_pos_new[i][0])+"\t"+str(Genome_pos_new[i][1])+"\t.\t"+Genome_sign_new[i]+"\t.\tID=g1;Name="+Genome_names_new[i])
   f = open(directoryAddress+"tousgenesidentiques.gff","w")
   f.writelines(newtab)
   f.close()
 	
 def writeTSS_dat(directoryAddress):
-  global Range,Genome_pos,Genome_sign,Genome_id
+  global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   newtab = []
   newtab.append("TUindex\tTUorient\tTSS_pos\tTSS_strength\n")
-  for i in range(len(Genome_pos)):
-    newtab.append(str(i)+"\t"+Genome_sign[i]+"\t"+str(min(Genome_pos[i]))+"\t.2\n") # Note can't change TSS_strengh with this command yet !
+  for i in range(len(Genome_pos_new)):
+    newtab.append(str(i)+"\t"+Genome_sign_new[i]+"\t"+str(min(Genome_pos_new[i]))+"\t.2\n") # Note can't change TSS_strengh with this command yet !
   f = open(directoryAddress+"TSS.dat","w")
   f.writelines(newtab)
   f.close()
 	
 def writeTTS_dat(directoryAddress):
-  global Range,Genome_pos,Genome_sign,Genome_id
+  global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   newtab = []
   newtab.append("TUindex\tTUorient\tTTS_pos\tTTS_proba_off\n")
-  for i in range(len(Genome_pos)):
-    newtab.append(str(i)+"\t"+Genome_sign[i]+"\t"+str(max(Genome_pos[i]))+"\t1.\n") # Note can't change TTS_proba_off with this command yet !
+  for i in range(len(Genome_pos_new)):
+    newtab.append(str(i)+"\t"+Genome_sign_new[i]+"\t"+str(max(Genome_pos_new[i]))+"\t1.\n") # Note can't change TTS_proba_off with this command yet !
   f = open(directoryAddress+"TTS.dat","w")
   f.writelines(newtab)
   f.close()
 	
+
+
 def Metropolis (nb_iterations) :
   
-  # il faut une grosse taille simulation pour estimer la fitness => peut dépendre architecture du génome
-  # simulation avec que des invertions => génome constant au début 
-  # poid relatif d'insertion délétion plutot que 
+  # il faut une grosse taille simulation pour estimer la fitness => peut dependre architecture du genome
+  # simulation avec que des invertions => genome constant au debut 
+  # poid relatif d'insertion deletion plutot que 
   #~ A = 0 # Note that this line is useless
-
-  fitness_new = []
-  for j in xrange(10) :
-      os.system('python3 start_simulation.py params.ini out.ouput')
-      
-      #récuperer transcrits : Transcript_new
-      load_res(SaveTranscript)
-      fitness_new.append(calc_fitness(Transcript_new))
-    
-    Genome_fitness = np.mean(fitness_new)
+  fitness = 0.5
   
   for i in xrange(nb_iterations) :
     
@@ -131,14 +138,14 @@ def Metropolis (nb_iterations) :
     
     fitness_prev = Genome_fitness
     fitness_new = []
-    #écrire les fichiers 
+    #ecrire les fichiers 
     zyup(Genome_pos_new, Genome_sign_new)
     changeGenomeDir(Dir_curr)
     
     for j in xrange(10) :
       os.system('python3 start_simulation.py params_new.ini out.ouput')
       
-      #récuperer transcrits : Transcript_new
+      #recuperer transcrits : Transcript_new
       load_res(SaveTranscript)
       fitness_new.append(calc_fitness(Transcript_new))
     
@@ -160,8 +167,7 @@ def Metropolis (nb_iterations) :
     #enregistrer genome final
     changeGenomeDir(Dir_curr)
   
-  
-  
+
 
 
 def calc_fitness(Transcript) :
@@ -213,7 +219,7 @@ def zyop(Genome_pos_new) :
       else : 
         Genome_pos_new[i] = (Genome_pos_new[i][0]-1, Genome_pos_new[i][1]-1)
   
-load_res(SaveTranscript)
+load_res()
 load_genome(Dir_start)
 changeGenomeDir(Dir_curr)
 
