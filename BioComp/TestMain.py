@@ -95,7 +95,7 @@ def writeProt_dat(directoryAddress):
 
 def write_gff(directoryAddress):
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
-  f = open(directoryAddress+"tousgenesidentiques.gff","r")
+  f = open(directoryAddress+"current_profile.gff","r")
   lignes = f.readlines()
   f.close()
   newtab = lignes[0:3]
@@ -104,7 +104,7 @@ def write_gff(directoryAddress):
   for i in range(len(Genome_pos_new)):
     s = "tousgenesidentiques\tRefSeq\tgene\t"
   newtab.append(s+str(Genome_pos_new[i][0])+"\t"+str(Genome_pos_new[i][1])+"\t.\t"+Genome_sign_new[i]+"\t.\tID=g1;Name="+Genome_names_new[i])
-  f = open(directoryAddress+"tousgenesidentiques.gff","w")
+  f = open(directoryAddress+"current_profile.gff","w")
   f.writelines(newtab)
   f.close()
 	
@@ -162,6 +162,10 @@ def Metropolis (nb_iterations) :
       Genome_fitness = fitness_new
       Genome_pos = list(Genome_pos_new)
       Genome_sign = list(Genome_sign_new)
+      Genome_names = list(Genome_names_new)
+      Prot_pos = list(Prot_pos_new)
+      Transcript = list(Transcript_new)
+      Range = list(Range_new)
       
     else : 
       # proba aceptation, depend de la fitness
@@ -170,7 +174,10 @@ def Metropolis (nb_iterations) :
         Genome_fitness = fitness_new
         Genome_pos = list(Genome_pos_new)
         Genome_sign = list(Genome_sign_new)
-      
+        Genome_names = list(Genome_names_new)
+        Prot_pos = list(Prot_pos_new)
+        Transcript = list(Transcript_new)
+        Range = list(Range_new)
     #enregistrer genome final
     changeGenomeDir(Dir_curr)
   
