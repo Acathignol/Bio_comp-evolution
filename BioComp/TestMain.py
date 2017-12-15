@@ -63,6 +63,12 @@ def load_genome(directoryAddress):
   Genome_names_new = Genome_names
   Prot_pos_new = Prot_pos
   Range_new = Range
+  ## Run once the code with starting params
+  f = open(SaveTranscript,"r")
+  lignes = f.readlines()
+  f.close()
+  for i in range(len(lignes)):
+     Transcript[i] = int(lignes[i].split(" ")[2].split("\n")[0])
 	
 	  
 def changeGenomeDir(Dir_curr):
