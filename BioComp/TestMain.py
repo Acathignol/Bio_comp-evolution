@@ -40,7 +40,7 @@ def load_res():
      Transcript_new[i] = int(lignes[i].split(" ")[2].split("\n")[0])
  
 def load_genome(directoryAddress):
-  global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names
+  global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names,SaveTranscript
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   f = open(directoryAddress+'tousgenesidentiques.gff','r')
   lignes = f.readlines()
@@ -64,6 +64,7 @@ def load_genome(directoryAddress):
   Prot_pos_new = Prot_pos
   Range_new = Range
   ## Run once the code with starting params
+  os.system('python3 start_simulation.py params.ini out.ouput')
   f = open(SaveTranscript,"r")
   lignes = f.readlines()
   f.close()
@@ -131,20 +132,11 @@ def writeTTS_dat(directoryAddress):
 
 def Metropolis (nb_iterations) :
   
-  # il faut une grosse taille simulation pour estimer la fitness => peut dépendre architecture du génome
-  # simulation avec que des invertions => génome constant au début 
-  # poid relatif d'insertion délétion plutot que 
+  # il faut une grosse taille simulation pour estimer la fitness => peut dependre architecture du genome
+  # simulation avec que des invertions => genome constant au debut 
+  # poid relatif d'insertion deletion plutot que 
   #~ A = 0 # Note that this line is useless
-
-  fitness_new = []
-  for j in xrange(10) :
-      os.system('python3 start_simulation.py params.ini out.ouput')
-      
-      #récuperer transcrits : Transcript_new
-      load_res(SaveTranscript)
-      fitness_new.append(calc_fitness(Transcript_new))
-    
-    Genome_fitness = np.mean(fitness_new)
+  fitness = 0.5
   
   for i in xrange(nb_iterations) :
     
@@ -153,14 +145,14 @@ def Metropolis (nb_iterations) :
     
     fitness_prev = Genome_fitness
     fitness_new = []
-    #écrire les fichiers 
+    #ecrire les fichiers 
     zyup(Genome_pos_new, Genome_sign_new)
     changeGenomeDir(Dir_curr)
     
     for j in xrange(10) :
       os.system('python3 start_simulation.py params_new.ini out.ouput')
       
-      #récuperer transcrits : Transcript_new
+      #recuperer transcrits : Transcript_new
       load_res(SaveTranscript)
       fitness_new.append(calc_fitness(Transcript_new))
     
@@ -181,7 +173,7 @@ def Metropolis (nb_iterations) :
       
     #enregistrer genome final
     changeGenomeDir(Dir_curr)
-
+  
 
 
 
