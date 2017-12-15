@@ -17,5 +17,7 @@ percent_zyup = 1 # sys.argv[3] # 1 = 100%
 
 Metropolis(nb_iterations)
 
+print Genome_pos
+
 
 
