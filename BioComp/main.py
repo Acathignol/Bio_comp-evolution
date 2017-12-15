@@ -5,6 +5,7 @@ import os
 import time
 import random
 import sys 
+import TestMain
 
 # main script 
 
@@ -18,7 +19,7 @@ goal_profile = [25,250,400,22,300,44,500,230,145,957] # sys.argv[2]
 global percent_zyup
 percent_zyup = 1 # sys.argv[3] # 1 = 100%
 
-Metropolis(nb_iterations)
+TestMain.Metropolis(nb_iterations)
 
 print Genome_pos
 
