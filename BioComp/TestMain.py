@@ -90,3 +90,15 @@ def zyup() :
       else : 
         Genome_pos[i] = ( pos_1 + pos_2 - max(Genome_pos[i]),pos_2 - (min(Genome_pos[i]) - pos_1))
 	Genome_sign[i] = "+"
+
+
+def zyop() : 
+  pos = pic_interg_pos(1)
+  sign = random.choice(("+", "-"))
+  for i,a in enumerate(Genome_pos) :
+    if (min(Genome_pos[i]) > pos) :
+      if (sign == "+") :
+        Genome_pos[i] = (Genome_pos[i][0]+1, Genome_pos[i][1]+1)
+      else : 
+        Genome_pos[i] = (Genome_pos[i][0]-1, Genome_pos[i][1]-1)
+  
