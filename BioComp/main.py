@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+import numpy as np
+import os
+import time
 import random
 import sys 
 
