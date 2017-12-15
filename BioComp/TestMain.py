@@ -67,7 +67,7 @@ def Metropolis (params){
   
 }
 
-def calc_fitness() :
+def calc_fitness(Transcript) :
   goal_profile = [25,250,400,22,300,44,500,230,145,957]
   fitness = 0
   for i in xrange(len(Transcript)) : 
