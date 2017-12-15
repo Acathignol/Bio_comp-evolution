@@ -125,11 +125,20 @@ def writeTTS_dat(directoryAddress):
 
 def Metropolis (nb_iterations) :
   
-  # il faut une grosse taille simulation pour estimer la fitness => peut dependre architecture du genome
-  # simulation avec que des invertions => genome constant au debut 
-  # poid relatif d'insertion deletion plutot que 
+  # il faut une grosse taille simulation pour estimer la fitness => peut dépendre architecture du génome
+  # simulation avec que des invertions => génome constant au début 
+  # poid relatif d'insertion délétion plutot que 
   #~ A = 0 # Note that this line is useless
-  fitness = 0.5
+
+  fitness_new = []
+  for j in xrange(10) :
+      os.system('python3 start_simulation.py params.ini out.ouput')
+      
+      #récuperer transcrits : Transcript_new
+      load_res(SaveTranscript)
+      fitness_new.append(calc_fitness(Transcript_new))
+    
+    Genome_fitness = np.mean(fitness_new)
   
   for i in xrange(nb_iterations) :
     
@@ -138,14 +147,14 @@ def Metropolis (nb_iterations) :
     
     fitness_prev = Genome_fitness
     fitness_new = []
-    #ecrire les fichiers 
+    #écrire les fichiers 
     zyup(Genome_pos_new, Genome_sign_new)
     changeGenomeDir(Dir_curr)
     
     for j in xrange(10) :
       os.system('python3 start_simulation.py params_new.ini out.ouput')
       
-      #recuperer transcrits : Transcript_new
+      #récuperer transcrits : Transcript_new
       load_res(SaveTranscript)
       fitness_new.append(calc_fitness(Transcript_new))
     
@@ -166,7 +175,7 @@ def Metropolis (nb_iterations) :
       
     #enregistrer genome final
     changeGenomeDir(Dir_curr)
-  
+
 
 
 
