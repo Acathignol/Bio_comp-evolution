@@ -107,16 +107,51 @@ def writeTTS_dat(directoryAddress):
   f.writelines(newtab)
   f.close()
 	
-
-def Metropolis(params):
+def Metropolis (nb_iterations) :
   
-  # il faut une grosse taille simulation pour estimer la fitness => peut dependre architecture du genome
-  # simulation avec que des invertions => genome constant au debut 
-  # poid relatif d'insertion deletion plutot que 
+  # il faut une grosse taille simulation pour estimer la fitness => peut dépendre architecture du génome
+  # simulation avec que des invertions => génome constant au début 
+  # poid relatif d'insertion délétion plutot que 
   #~ A = 0 # Note that this line is useless
   fitness = 0.5
   
-  zyup()
+  for i in xrange(nb_iterations) :
+    
+    Genome_pos_new = list(Genome_pos)
+    Genome_sign_new = list(Genome_sign)
+    
+    fitness_prev = Genome_fitness
+    fitness_new = []
+    #écrire les fichiers 
+    zyup(Genome_pos_new, Genome_sign_new)
+    changeGenomeDir(Dir_curr)
+    
+    for j in xrange(10) :
+      os.system('python3 start_simulation.py params_new.ini out.ouput')
+      
+      #récuperer transcrits : Transcript_new
+      load_res(SaveTranscript)
+      fitness_new.append(calc_fitness(Transcript_new))
+    
+    fitness_new = np.mean(fitness_new)
+    
+    if fitness_new > Genome_fitness :
+      Genome_fitness = fitness_new
+      Genome_pos = list(Genome_pos_new)
+      Genome_sign = list(Genome_sign_new)
+      
+    else : 
+      # proba aceptation, depend de la fitness
+      p_fitness = 0.5 
+      if random.random() > p_fitness : 
+        Genome_fitness = fitness_new
+        Genome_pos = list(Genome_pos_new)
+        Genome_sign = list(Genome_sign_new)
+      
+    #enregistrer genome final
+    changeGenomeDir(Dir_curr)
+  
+  
   
 
 
