@@ -7,13 +7,13 @@ import sys
 
 print("Hello World!")
 
-nb_iterations = sys.argv[1]
+nb_iterations = 1 # sys.argv[1]
 
 global goal_profile
-goal_profile = sys.argv[2]
+goal_profile = [25,250,400,22,300,44,500,230,145,957] # sys.argv[2] 
 
 global percent_zyup
-percent_zyup = sys.argv[3]
+percent_zyup = 1 # sys.argv[3] # 1 = 100%
 
 Metropolis(nb_iterations)
 
