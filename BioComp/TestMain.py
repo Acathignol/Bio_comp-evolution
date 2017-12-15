@@ -77,7 +77,13 @@ def pic_interg_pos(nb_of_pos){
   
   #~ A = 0 # Note that this line is useless
   
-
+def calc_fitness() :
+  goal_profile = [25,250,400,22,300,44,500,230,145,957]
+  fitness = 0
+  for i in xrange(len(Transcript)) : 
+    fitness = fitness + (goal_profile[i] - Transcript[i])*(goal_profile[i] - Transcript[i])
+  return fitness
+  
 
 
 def zyup() : 
