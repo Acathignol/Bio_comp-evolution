@@ -2,6 +2,7 @@ import numpy as np
 import os
 import time
 import random
+import math
 
 print ("Hello world!")
 
@@ -168,8 +169,8 @@ def Metropolis (nb_iterations) :
       Range = list(Range_new)
       
     else : 
-      # proba aceptation, depend de la fitness
-      p_fitness = 0.5 
+     
+      p_fitness = (math.exp(fitness_new)-1)/(math.exp(1)-1)  # proba aceptation, depend de la fitness
       if random.random() > p_fitness : 
         Genome_fitness = fitness_new
         Genome_pos = list(Genome_pos_new)
