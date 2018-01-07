@@ -22,5 +22,5 @@ At each time we :
 ## Simulations à faire : 
  - changer le rapport indel/inversion (au début que indel puis on peut ajouter inversion !) : 1, 0.75, 0.5 (et 0).  
  - changer la fonction déterminant la probabilité de garder un individu avec une moins bonne fitness que précédemment
- - changer le phénotype à atteindre : ([250 250 250 250 250 250 250 250 250 250],) [10 100 100 1000 10 100 100 1000 10 100], [200 250 300 300 250 200 250 300 200 250]
+ - changer le phénotype à atteindre : ([250 250 250 250 250 250 250 250 250 250],) [10 100 100 1000 10 100 100 1000 10 100], [200 250 300 300 250 200 250 300 200 250] (or/and [210 58 331 304 256 198 234 289 541 250] ?)
  - changer le nombre de fois qu'on fait la simulation pour calculer la fitness : 10 à la base (car trop de temps de simulations sinon) et 100 would be better (pour des paramètres qui marchent par exemple).
