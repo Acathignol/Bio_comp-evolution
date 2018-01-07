@@ -4,6 +4,8 @@ Aim : To develop a simulation code to test the adaptation of transcriptional reg
 - We have a bacterial DNA with a set of genes and intergenic regions. At the end of a simulation with the code of old 5BIM, we obtain the level of genes expression (how much a gene is transcript). If we simulate just like that, we find an even expression for all the genes.
 - We want to see a differiential expression that we will choose before. (so individuals must evolve to it).
 
+Overleaf : https://www.overleaf.com/13083736zcyppwftrptq#/50222266/
+
 ## FIRST PART OF THE CODE :
 - zyup : function(intergenic_pos1, intergenic_pos2)
 - zyop : function(intergenic_pos, sign) # + = insertion and - = deletion
@@ -20,7 +22,7 @@ At each time we :
 
 
 ## Simulations à faire : 
- - changer le rapport indel/inversion (au début que indel puis on peut ajouter inversion !) : 1, 0.75, 0.5 (et 0).  
+ - changer le rapport inversion/indel (au début que inversion puis on peut ajouter indel !) : 1, 0.75, 0.5 (et 0).  
  - changer la fonction déterminant la probabilité de garder un individu avec une moins bonne fitness que précédemment
- - changer le phénotype à atteindre : ([250 250 250 250 250 250 250 250 250 250],) [10 100 100 1000 10 100 100 1000 10 100], [200 250 300 300 250 200 250 300 200 250]
+ - changer le phénotype à atteindre : ([250 250 250 250 250 250 250 250 250 250],) [10 100 100 1000 10 100 100 1000 10 100], [200 250 300 300 250 200 250 300 200 250] (or/and [210 58 331 304 256 198 234 289 541 250] ?)
  - changer le nombre de fois qu'on fait la simulation pour calculer la fitness : 10 à la base (car trop de temps de simulations sinon) et 100 would be better (pour des paramètres qui marchent par exemple).
