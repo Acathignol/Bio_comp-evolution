@@ -17,3 +17,10 @@ At each time we :
    4) measure the new fitness of the individual
    5) if the new-individual's fitness is better : keep the new ???
       else : keep the new with a probability given. (prob decreases with the fitness).
+
+
+Simulations à faire : 
+ - changer le rapport indel/inversion (au début que indel puis on peut ajouter inversion !) : 1, 0.75, 0.5 (et 0).  
+ - changer la fonction déterminant la probabilité de garder un individu avec une moins bonne fitness que précédemment
+ - changer le phénotype à atteindre : ([250 250 250 250 250 250 250 250 250 250],) [10 100 100 1000 10 100 100 1000 10 100], [200 250 300 300 250 200 250 300 200 250]
+ - changer le nombre de fois qu'on fait la simulation pour calculer la fitness : 10 à la base (car trop de temps de simulations sinon) et 100 would be better (pour des paramètres qui marchent par exemple).
