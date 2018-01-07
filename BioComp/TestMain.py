@@ -33,7 +33,7 @@ Prot_pos_new = Prot_pos
 Range_new = Range
   
 def load_res():
-  global Transcript_new,SaveTranscript
+  global Transcript_new, SaveTranscript
   f = open(SaveTranscript,"r")
   lignes = f.readlines()
   f.close()
@@ -57,7 +57,7 @@ def load_genome(directoryAddress):
   lignes = f.readlines()
   f.close()
   for i in range(1,len(lignes)):
-	  Prot_pos[i-1] = int(lignes[i].split("\t")[1])
+    Prot_pos[i-1] = int(lignes[i].split("\t")[1])
   Transcript_new = Transcript
   Genome_pos_new = Genome_pos
   Genome_sign_new = Genome_sign
@@ -71,8 +71,8 @@ def load_genome(directoryAddress):
   f.close()
   for i in range(len(lignes)):
      Transcript[i] = int(lignes[i].split(" ")[2].split("\n")[0])
-	
-	  
+  
+    
 def changeGenomeDir(Dir_curr):
   reorder()
   writeProt_dat(Dir_curr)
@@ -89,7 +89,7 @@ def writeProt_dat(directoryAddress):
   newtab = []
   newtab.append("prot_name\tprot_pos\n")
   for i in range(len(Genome_pos_new)):
-  	newtab.append("hns"+"\t"+str(Prot_pos_new[i])+"\n")
+    newtab.append("hns"+"\t"+str(Prot_pos_new[i])+"\n")
   f = open(directoryAddress+'prot.dat','w')
   f.writelines(newtab)
   f.close()
@@ -108,7 +108,7 @@ def write_gff(directoryAddress):
   f = open(directoryAddress+"current_profile.gff","w")
   f.writelines(newtab)
   f.close()
-	
+  
 def writeTSS_dat(directoryAddress):
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   newtab = []
@@ -118,7 +118,7 @@ def writeTSS_dat(directoryAddress):
   f = open(directoryAddress+"TSS.dat","w")
   f.writelines(newtab)
   f.close()
-	
+  
 def writeTTS_dat(directoryAddress):
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   newtab = []
@@ -128,7 +128,7 @@ def writeTTS_dat(directoryAddress):
   f = open(directoryAddress+"TTS.dat","w")
   f.writelines(newtab)
   f.close()
-	
+  
 
 
 def Metropolis (nb_iterations) :
@@ -205,7 +205,7 @@ def pic_interg_pos(nb_of_pos):
         break
     if is_interg=="TRUE" : 
       interg_pos.append(pos)
-	
+  
   # picking one position or two from it
   for i in range(nb_of_pos) :
     pos_chosen.append(random.choice(interg_pos))
@@ -218,10 +218,10 @@ def zyup(Genome_pos_new, Genome_sign_new) :
     if (Genome_pos_new[i][0] >= pos_1 and Genome_pos_new[i][0] <= pos_2 and Genome_pos_new[i][1] >= pos_1 and Genome_pos_new[i][1] <= pos_2 ) :
       if (Genome_sign_new[i] == "+") :
         Genome_pos_new[i] = (pos_2 - (min(Genome_pos_new[i]) - pos_1), pos_1 + pos_2 - max(Genome_pos_new[i]))
-      	Genome_sign_new[i] = "-"
+        Genome_sign_new[i] = "-"
       else : 
         Genome_pos_new[i] = ( pos_1 + pos_2 - max(Genome_pos_new[i]),pos_2 - (min(Genome_pos_new[i]) - pos_1))
-	Genome_sign_new[i] = "+"
+        Genome_sign_new[i] = "+"
 
 
 def zyop(Genome_pos_new) : 
