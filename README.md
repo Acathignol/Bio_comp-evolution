@@ -4,6 +4,8 @@ Aim : To develop a simulation code to test the adaptation of transcriptional reg
 - We have a bacterial DNA with a set of genes and intergenic regions. At the end of a simulation with the code of old 5BIM, we obtain the level of genes expression (how much a gene is transcript). If we simulate just like that, we find an even expression for all the genes.
 - We want to see a differiential expression that we will choose before. (so individuals must evolve to it).
 
+Overleaf : https://www.overleaf.com/13083736zcyppwftrptq#/50222266/
+
 ## FIRST PART OF THE CODE :
 - zyup : function(intergenic_pos1, intergenic_pos2)
 - zyop : function(intergenic_pos, sign) # + = insertion and - = deletion
