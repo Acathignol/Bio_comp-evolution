@@ -79,7 +79,7 @@ def read_config_file_v2(path):
 ###################### Reading files ######################
 
 # you can combine those two functions
-def load_gff(filename):  
+def load_gff(filename):
     gff_df_raw = pd.read_table(filename, sep='\t', comment='#', header=0)
     return gff_df_raw
 
@@ -168,15 +168,15 @@ def get_tr_info(tss, tts, TU_tts, Kon, Poff):
                 k += 1
         else:
             # go leftB
-            k = 0 #TU_id #0 #len(this_TU_tts)# TTS id index ### [0 1 2 3 4 5]
+            k = TU_id #TU_id #0 #len(this_TU_tts)# TTS id index ### [0 1 2 3 4 5]
             proba_rest = 1
-            while proba_rest > 0 and k < len(this_TU_tts) : # >= 0 : #
+            while proba_rest > 0 : #and k < len(this_TU_tts) : # >= 0 : #
                 if tts['TTS_pos'][k] < tss['TSS_pos'][i] : # and tts['TUindex'][k] == TU_id :
                     tr_id.append(j)
                     tr_strand.append(-1)
                     tr_start.append(tss['TSS_pos'][i])
                     # after getting them, we shall (in every loop) generate a new tr_end
-                    tr_end.append(this_TU_tts[k])
+                    tr_end.append(tts['TTS_pos'][k])#tr_end.append(this_TU_tts[k])
                     # the probability to choose a specific transcript
                     tr_rate.append(Kon[i] * (Poff[k] * proba_rest)) 
                     proba_rest = (1 - Poff[k]) * proba_rest
@@ -639,12 +639,12 @@ def start_transcribing(INI_file, output_dir):
     save_mean_sig_wholeGenome = np.array(save_mean_sig_wholeGenome)
     save_files(output_dir, Barr_pos, Barr_type, Dom_size, Barr_ts_remain, Barr_sigma, tr_nbr, tr_times, save_RNAPs_info, save_tr_info, save_Barr_sigma, save_Dom_size, save_mean_sig_wholeGenome, DELTA_X, RNAPs_genSC, RNAPs_tr, RNAPs_pos, RNAPs_unhooked_id, init_rate, Kon, RNAPS_NB, SIGMA_0, GYRASE_CONC, TOPO_CONC)
 
-    print("Simulation completed successfully !! \nNumber of transcripts : \n")
+    #~ print("Simulation completed successfully !! \nNumber of transcripts : \n")
     newtab = []
         
     for i, v in enumerate(tr_nbr):
         newtab.append("Transcript{} : {}".format(i, v)+"\n")
-        print("Transcript{} : {}".format(i, v))
+        #~ print("Transcript{} : {}".format(i, v))
     f = open("EnregistrementTranscrits.txt","w")
     f.writelines(newtab)
     f.close()
@@ -1032,9 +1032,9 @@ def resume_transcription(INI_file, resume_path, output_dir):
     save_mean_sig_wholeGenome = np.array(save_mean_sig_wholeGenome)
     save_files(output_dir, Barr_pos, Barr_type, Dom_size, Barr_ts_remain, Barr_sigma, tr_nbr, tr_times, save_RNAPs_info, save_tr_info, save_Barr_sigma, save_Dom_size, save_mean_sig_wholeGenome, DELTA_X, RNAPs_genSC, RNAPs_tr, RNAPs_pos, RNAPs_unhooked_id, init_rate, Kon, RNAPS_NB, SIGMA_0, GYRASE_CONC, TOPO_CONC)
 
-    print("Simulation completed successfully !! \nNumber of transcripts : \n")
-    for i, v in enumerate(tr_nbr):
-        print("Transcript{} : {}".format(i, v))
+    #~ print("Simulation completed successfully !! \nNumber of transcripts : \n")
+    #~ for i, v in enumerate(tr_nbr):
+        #~ print("Transcript{} : {}".format(i, v))
 
     return (GFF_file, TSS_file, TTS_file,
             ITERATIONS_NB, RNAPS_NB,
