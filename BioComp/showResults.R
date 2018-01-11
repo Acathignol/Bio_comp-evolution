@@ -18,7 +18,8 @@ which(rawdata$V2==max(rawdata$V2))[1]
 counts <- data.frame("Origin"=origin,"Actual"=as.numeric(rawdata[which(rawdata$V2==max(rawdata$V2))[1],5:14]),"Target"= target)
 counts 
 
-barplot(as.matrix(counts))
+barplot(as.matrix(t(counts)),beside=T,col=c("gray38","darkorange1","firebrick2"))
+legend("topleft", inset=.02,c("Origin","Actual","Target"), fill=c("gray38","darkorange1","firebrick2"), horiz=TRUE, cex=0.8)
 
 
 # r = rawdata$V3/rawdata$V2
