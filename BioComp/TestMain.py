@@ -3,6 +3,7 @@ import os
 import time
 import random
 import math
+from tkinter import *
 
 print ("Hello world!")
 
@@ -15,7 +16,7 @@ Transcript = []
 Genome_pos = []
 Genome_sign = []
 Genome_names = []
-Genome_fitness = 100000000
+Genome_fitness = 00000000
 Prot_pos = []
 Range = (0,0)
 
@@ -143,12 +144,43 @@ def writeTTS_dat(directoryAddress):
   f.writelines(newtab)
   f.close()
 	
-
+def colorPalette():
+	
+	col=[]
+	col.append(['slategray','#6f8090',10])
+	col.append(['cornsilk3','#cdc7b0',10])
+	#~ col.append(['burlywood2','#edc591',10])
+	col.append(['lightpink','#ffadb8',10])
+	#~ col.append(['palegreen','#97fa97',10])
+	col.append(['paleturquoise','#baffff',10])
+	#~ col.append(['thistle2','#cac3ca',10])
+	col.append(['slateblue3','#6958cd',10])
+	col.append(['steelblue3','#4f93cd',10])
+	col.append(['tomato','#ff6246',10])
+	col.append(['orangered1','#ff4500',10])
+	col.append(['orange','#ffa400',10])
+	col.append(['firebrick3','#cd2525',10])
+	#~ col.append(['brown2','#ed3a3a',10])
+	#~ col.append(['yellow1','#ffff00',10])
+	col.append(['gold2','#edc800',10])
+	col.append(['deeppink2','#ed1288',10])
+	col.append(['mediumpurple','#926fdb',10])
+	col.append(['chartreuse2','#7eff00',10])
+	col.append(['green2','#00cd00',10])
+	#~ col.append(['olivedrab3','#9acd31',10])
+	#~ col.append(['limegreen','#31cd31',10])
+	col.append(['royalblue2','#436ded',10])
+	col.append(['seagreen3','#43cd80',10])
+	col.append(['skyblue3','#6ca6cd',10])
+	col.append(['darkmagenta','#8a008a',10])
+	col.append(['hotpink1','#ff6db4',10])
+	
+	return col
 
 def Metropolis (nb_iterations) :
   global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names,SaveTranscript
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
-  global Genome_fitness
+  global Genome_fitness,Transcript_new,Transcript
   # il faut une grosse taille simulation pour estimer la fitness => peut dependre architecture du genome
   # simulation avec que des invertions => genome constant au debut 
   # poid relatif d'insertion deletion plutot que 
@@ -156,8 +188,14 @@ def Metropolis (nb_iterations) :
   fitness = 0.5
   newtab = []
   i = 0 
+  window = Tk()
+  window.title('Metropolis')
+  canvas = Canvas(window,bg='#353535',height=300,width=1200)
+  canvas.pack(side=TOP)
+  col = colorPalette()
+  
+  
   while i < nb_iterations :
-        
     Genome_pos_new = list(Genome_pos)
     Genome_sign_new = list(Genome_sign)
     
@@ -165,7 +203,9 @@ def Metropolis (nb_iterations) :
     fitness_new = []
     change = 0
     #ecrire les fichiers 
-    zyup(Genome_pos_new, Genome_sign_new)
+    z = 0
+    while z == 0:
+      z = zyup()
     changeGenomeDir(Dir_curr)
     
     for j in range(2) :
@@ -174,16 +214,32 @@ def Metropolis (nb_iterations) :
       #recuperer transcrits : Transcript_new
       change = change + load_res()
       fitness_new.append(calc_fitness(Transcript_new))
+      print (Transcript_new)
     
     fitness_new = np.mean(fitness_new)
+    print(fitness_new)
     s = " "
     if change > 0:
       i+=1
+      canvas.delete("all")
+      canvas.create_rectangle(100,50,1100,250,fill="#000000")
+      canvas.create_text(30,25,text=str(i),fill="#FFFFFF",anchor=NW)
+      canvas.create_text(30,75,text=str(Genome_fitness),fill="#FFFFFF",anchor=NW)
+      canvas.create_text(30,175,text=str(fitness_new),fill="#FFFFFF",anchor=NW)
+      for k in range(len(Genome_pos)):
+        canvas.create_rectangle(100+Genome_pos[k][0]/30,60,100+Genome_pos[k][1]/30,80,fill=col[k][1])
+      for k in range(len(Prot_pos)):
+        canvas.create_rectangle(100+Prot_pos[k]/30,90,110+Prot_pos[k]/30,110,fill=col[k][1])
+      for k in range(len(Genome_pos)):
+        canvas.create_rectangle(100+Genome_pos_new[k][0]/30,160,100+Genome_pos_new[k][1]/30,180,fill=col[k][1])
+      for k in range(len(Prot_pos)):
+        canvas.create_rectangle(100+Prot_pos_new[k]/30,190,110+Prot_pos_new[k]/30,210,fill=col[k][1])
+      window.update()
       #~ print(" ")
       #~ print("####################################")
       #~ print("     Iterations number "+str(i))
       #~ print("####################################") 
-      if fitness_new < Genome_fitness :
+      if fitness_new > Genome_fitness :
         Genome_fitness = fitness_new
         Genome_pos = list(Genome_pos_new)
         Genome_sign = list(Genome_sign_new)
@@ -192,11 +248,11 @@ def Metropolis (nb_iterations) :
         Transcript = list(Transcript_new)
         Range = list(Range_new)
       
-      else : 
-        #p_fitness = (math.exp(fitness_new)-1)/(math.exp(1)-1)  # proba aceptation, depend de la fitness
-        p_fitness = 1/(fitness_new/5000)
-        p_fitness = 2
-        if random.random() > p_fitness : 
+      
+      else :
+        p_fitness = (math.exp(fitness_new)-Genome_fitness)/(math.exp(1)-Genome_fitness)  # proba aceptation, depend de la fitness   #### changes here
+        #~ p_fitness = -0.1
+        if random.random() < p_fitness : 
           Genome_fitness = fitness_new
           Genome_pos = list(Genome_pos_new)
           Genome_sign = list(Genome_sign_new)
@@ -204,6 +260,24 @@ def Metropolis (nb_iterations) :
           Prot_pos = list(Prot_pos_new)
           Transcript = list(Transcript_new)
           Range = list(Range_new)
+        else :		
+          Genome_pos_new = list(Genome_pos)
+          Genome_sign_new = list(Genome_sign)
+          Genome_names_new = list(Genome_names)
+          Prot_pos_new = list(Prot_pos)
+          Transcript_new = list(Transcript)
+          Range_new = list(Range)
+      #~ else : 
+        #~ #p_fitness = (math.exp(fitness_new)-1)/(math.exp(1)-1)  # proba aceptation, depend de la fitness
+        #~ p_fitness = 2
+        #~ if random.random() > p_fitness : 
+          #~ Genome_fitness = fitness_new
+          #~ Genome_pos = list(Genome_pos_new)
+          #~ Genome_sign = list(Genome_sign_new)
+          #~ Genome_names = list(Genome_names_new)
+          #~ Prot_pos = list(Prot_pos_new)
+          #~ Transcript = list(Transcript_new)
+          #~ Range = list(Range_new)
       #enregistrer genome final
       changeGenomeDir(Dir_curr)
       s += str(i)+"|"+str(Genome_fitness)+"|"+str(fitness_new)# +"|"+str(change)
@@ -227,49 +301,81 @@ def Metropolis (nb_iterations) :
 def calc_fitness(Transcript) :
   goal_profile = [25,250,400,22,300,44,500,230,145,957]
   #~ goal_profile = [25,250,400,272,300,294,500,230,145,457]
-  fitness = 0
+  fitness = 1   #### changes here
   for i in range(len(Transcript)) : 
     fitness = fitness + (goal_profile[i] - Transcript[i])*(goal_profile[i] - Transcript[i])
-  return fitness
+  return 1/fitness   #### changes here
   
 
-def pic_interg_pos(nb_of_pos):
-  global Genome_pos_new
-  pos_chosen = []
-  # creating intergenic positions list
-  interg_pos = []
-  for pos in range(Range[0],Range[1]+1) : 
-    is_interg = "TRUE"
-    for g in Genome_pos_new : 
-      if pos in range(g[0],g[1]+1) :
-        is_interg = "FALSE"
-        break
-    if is_interg=="TRUE" : 
-      interg_pos.append(pos)
+def pic_interg_pos():
+  global Genome_pos
+  pos_chosen = False
+  pos = 0
+  while pos_chosen == False:
+    isok = True
+    pos = np.random.randint(Range[0],Range[1]+1)
+    for k in range(len(Genome_pos)):
+      if pos > min(Genome_pos[k]):
+        if pos < max(Genome_pos[k]):
+          isok = False
+    if isok == True:
+      pos_chosen = True
+    print (pos,isok)
+  return pos
+	  
+  #~ global Genome_pos
+  #~ pos_chosen = []
+  #~ # creating intergenic positions list
+  #~ interg_pos = []
+  #~ for pos in range(Range[0],Range[1]+1) : 
+    #~ is_interg = "TRUE"
+    #~ for g in Genome_pos : 
+      #~ if pos in range(g[0],g[1]+1) :
+        #~ is_interg = "FALSE"
+        #~ break
+    #~ if is_interg=="TRUE" : 
+      #~ interg_pos.append(pos)
 	
-  # picking one position or two from it
-  for i in range(nb_of_pos) :
-    pos_chosen.append(random.choice(interg_pos))
-  return pos_chosen
+  #~ # picking one position or two from it
+  #~ for i in range(nb_of_pos) :
+    #~ pos_chosen.append(random.choice(interg_pos))
+  #~ return pos_chosen
 
 
-def zyup(Genome_pos_new, Genome_sign_new) : 
-  (pos_1,pos_2) = pic_interg_pos(2)
-  for i,a in enumerate(Genome_pos_new) :
-    if (Genome_pos_new[i][0] >= pos_1 and Genome_pos_new[i][0] <= pos_2 and Genome_pos_new[i][1] >= pos_1 and Genome_pos_new[i][1] <= pos_2 ) :
-      if (Genome_sign_new[i] == "+") :
-        Genome_pos_new[i] = (pos_2 - (min(Genome_pos_new[i]) - pos_1), pos_1 + pos_2 - max(Genome_pos_new[i]))
-        Genome_sign_new[i] = "-"
-      else : 
-        Genome_pos_new[i] = ( pos_1 + pos_2 - max(Genome_pos_new[i]),pos_2 - (min(Genome_pos_new[i]) - pos_1))
-        Genome_sign_new[i] = "+"
-  for i in range(len(Prot_pos_new)):
-    if Prot_pos_new[i] > min(pos_1,pos_2):
-      if Prot_pos_new[i] < max(pos_1,pos_2):
-        Prot_pos_new[i] =  pos_1 + pos_2 - Prot_pos_new[i]
+def zyup() : 
+  global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names,SaveTranscript
+  global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
+  global Genome_fitness,Transcript_new
+  counter = 0
+  (pos_1,pos_2) = (pic_interg_pos(),pic_interg_pos())
+  for i in range(len(Genome_pos)) :
+    if Genome_pos[i][0]>min(pos_1,pos_2):
+      if Genome_pos[i][0]<max(pos_1,pos_2):
+        if Genome_pos[i][1]>min(pos_1,pos_2):
+          if Genome_pos[i][1]<max(pos_1,pos_2):
+            counter +=1
+            Genome_pos_new[i] = (pos_1+pos_2-Genome_pos[i][0],pos_1+pos_2-Genome_pos[i][1])
+            if (Genome_sign[i] == "+") :
+              Genome_sign_new[i] = "-"
+            else : 
+              Genome_sign_new[i] = "+"
+  #~ for i,a in enumerate(Genome_pos) :
+    #~ if (Genome_pos[i][0] >= pos_1 and Genome_pos[i][0] <= pos_2 and Genome_pos[i][1] >= pos_1 and Genome_pos[i][1] <= pos_2 ) :
+      #~ if (Genome_sign[i] == "+") :
+        #~ Genome_pos_new[i] = (pos_2 - (min(Genome_pos[i]) - pos_1), pos_1 + pos_2 - max(Genome_pos[i]))
+        #~ Genome_sign_new[i] = "-"
+      #~ else : 
+        #~ Genome_pos_new[i] = ( pos_1 + pos_2 - max(Genome_pos[i]),pos_2 - (min(Genome_pos[i]) - pos_1))
+        #~ Genome_sign_new[i] = "+"
+  for i in range(len(Prot_pos)):
+    if Prot_pos[i] > min(pos_1,pos_2):
+      if Prot_pos[i] < max(pos_1,pos_2):
+        counter +=1
+        Prot_pos_new[i] =  pos_1 + pos_2 - Prot_pos[i]
+  return counter
 
 def zyop(Genome_pos_new) : 
-  pos = pic_interg_pos(1)
+  pos = pic_interg_pos()
   sign = random.choice(("+", "-"))
   for i,a in enumerate(Genome_pos_new) :
     if (min(Genome_pos_new[i]) > pos) :
