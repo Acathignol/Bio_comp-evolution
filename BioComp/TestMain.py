@@ -177,7 +177,7 @@ def colorPalette():
 	
 	return col
 
-def Metropolis (nb_iterations) :
+def Metropolis (nb_iterations, nb_it_fitness, goal_profile) :
   global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names,SaveTranscript
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   global Genome_fitness,Transcript_new,Transcript
@@ -208,12 +208,12 @@ def Metropolis (nb_iterations) :
       z = zyup()
     changeGenomeDir(Dir_curr)
     
-    for j in range(2) :
+    for j in range(nb_it_fitness) :
       os.system('python3 start_simulation.py parnew.ini out.ouput')
       
       #recuperer transcrits : Transcript_new
       change = change + load_res()
-      fitness_new.append(calc_fitness(Transcript_new))
+      fitness_new.append(calc_fitness(Transcript_new, goal_profile))
       print (Transcript_new)
     
     fitness_new = np.mean(fitness_new)
@@ -298,9 +298,7 @@ def Metropolis (nb_iterations) :
 
 
 
-def calc_fitness(Transcript) :
-  goal_profile = [25,250,400,22,300,44,500,230,145,957]
-  #~ goal_profile = [25,250,400,272,300,294,500,230,145,457]
+def calc_fitness(Transcript, goal_profile) :
   fitness = 1   #### changes here
   for i in range(len(Transcript)) : 
     fitness = fitness + (goal_profile[i] - Transcript[i])*(goal_profile[i] - Transcript[i])
