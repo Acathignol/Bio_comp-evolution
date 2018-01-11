@@ -177,7 +177,7 @@ def colorPalette():
 	
 	return col
 
-def Metropolis (nb_iterations, nb_it_fitness, goal_profile) :
+def Metropolis (nb_iterations, nb_it_fitness, goal_profile,percent_zyup) :
   global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names,SaveTranscript
   global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
   global Genome_fitness,Transcript_new,Transcript
@@ -203,9 +203,13 @@ def Metropolis (nb_iterations, nb_it_fitness, goal_profile) :
     fitness_new = []
     change = 0
     #ecrire les fichiers 
-    z = 0
-    while z == 0:
-      z = zyup()
+    
+    if random.random() <= percent_zyup :
+      z = 0
+      while z == 0:
+        z = zyup()
+    else : zyop()
+		  
     changeGenomeDir(Dir_curr)
     
     for j in range(nb_it_fitness) :
@@ -372,15 +376,20 @@ def zyup() :
         Prot_pos_new[i] =  pos_1 + pos_2 - Prot_pos[i]
   return counter
 
-def zyop(Genome_pos_new) : 
+def zyop() :
+  global Genome_pos,Genome_sign,Prot_pos,Range,Genome_names,SaveTranscript
+  global Genome_pos_new,Genome_sign_new,Prot_pos_new,Range_new,Genome_names_new
+  global Genome_fitness,Transcript_new 
   pos = pic_interg_pos()
   sign = random.choice(("+", "-"))
-  for i,a in enumerate(Genome_pos_new) :
-    if (min(Genome_pos_new[i]) > pos) :
+  for i,a in enumerate(Genome_pos) :
+    if (min(Genome_pos[i]) > pos) :
       if (sign == "+") :
-        Genome_pos_new[i] = (Genome_pos_new[i][0]+1, Genome_pos_new[i][1]+1)
+        Range_new[1] += 1 
+        Genome_pos_new[i] = (Genome_pos[i][0]+1, Genome_pos[i][1]+1)
       else : 
-        Genome_pos_new[i] = (Genome_pos_new[i][0]-1, Genome_pos_new[i][1]-1)
+        Range_new[1] -= 1 
+        Genome_pos_new[i] = (Genome_pos[i][0]-1, Genome_pos[i][1]-1)
   
 load_res()
 load_genome(Dir_start)
