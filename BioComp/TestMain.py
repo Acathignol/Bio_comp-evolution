@@ -250,7 +250,7 @@ def Metropolis (nb_iterations) :
       
       
       else :
-        p_fitness = (math.exp(fitness_new)-Genome_fitness)/(math.exp(1)-Genome_fitness)  # proba aceptation, depend de la fitness   #### changes here
+        p_fitness = (math.exp(math.exp(math.exp(fitness_new/Genome_fitness)))-1)/(math.exp(math.exp(math.exp(1)))-1)  # proba aceptation, depend de la fitness   #### changes here
         #~ p_fitness = -0.1
         if random.random() < p_fitness : 
           Genome_fitness = fitness_new
