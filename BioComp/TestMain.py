@@ -211,7 +211,13 @@ def Metropolis (nb_iterations, nb_it_fitness, goal_profile,percent_zyup) :
     else : zyop()
 		  
     changeGenomeDir(Dir_curr)
+    TranscriptAll = []
+    for k in range(10):
+      TranscriptAll.append(0)
     
+   
+     
+          
     for j in range(nb_it_fitness) :
       os.system('python3 start_simulation.py parnew.ini out.ouput')
       
@@ -219,6 +225,10 @@ def Metropolis (nb_iterations, nb_it_fitness, goal_profile,percent_zyup) :
       change = change + load_res()
       fitness_new.append(calc_fitness(Transcript_new, goal_profile))
       print (Transcript_new)
+      for k in range(10):
+        TranscriptAll[k]+=Transcript_new[k]
+    for k in range(10):
+      TranscriptAll[k] = TranscriptAll[k]/nb_verif
     
     fitness_new = np.mean(fitness_new)
     print(fitness_new)
@@ -287,8 +297,8 @@ def Metropolis (nb_iterations, nb_it_fitness, goal_profile,percent_zyup) :
       s += str(i)+"|"+str(Genome_fitness)+"|"+str(fitness_new)# +"|"+str(change)
       #~ print (Transcript_new)
       s += "|  "
-      for k in range(len(Transcript_new)):
-        s+= "|"+str(Transcript_new[k])
+      for k in range(len(TranscriptAll)):
+        s+= "|"+str(TranscriptAll[k])
       s += "|  "
       for k in range(len(Prot_pos)):
         s+= "|"+str(Prot_pos[k])
